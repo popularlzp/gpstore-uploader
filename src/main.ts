@@ -56,3 +56,4 @@ async function releaseToPlayStore(
 
   await play.edits.commit({ packageName, editId: edit.data.id! });
 }
+void run();
