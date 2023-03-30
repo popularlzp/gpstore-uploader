@@ -1,3 +1,12 @@
-"scripts": {
-  "release-to-playstore": "ts-node ./releaseToPlayStore.ts"
+{
+  "name": "upload-google-play",
+  "version": "1.0.1",
+  "private": true,
+  "description": "Upload an Android release (.apk or .aab) to Google Play Console",
+  "scripts": {
+     "release-to-playstore": "ts-node ./releaseToPlayStore.ts"
+   },
+  "dependencies": {
+     "@googleapis/androidpublisher": "^3.0.0"
+  }
 }
