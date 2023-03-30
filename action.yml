@@ -1,0 +1,23 @@
+name: Release to Play Store
+description: Publishes an Android app to the Google Play Store using the Google Play Developer API.
+
+inputs:
+  packageName:
+    description: 'The package name of the app to release.'
+    required: true
+  track:
+    description: 'The track to release the app to (e.g. alpha, beta, production).'
+    required: true
+  credentials:
+    description: 'The Google service account credentials (in JSON format) used to authenticate with the Google Play Developer API.'
+    required: true
+  releaseNotes:
+    description: 'The release notes for the app version.'
+    required: true
+  aabFilePath:
+    description: 'The path to the AAB file for the app.'
+    required: true
+
+runs:
+  using: 'node12'
+  main: 'main.ts'
