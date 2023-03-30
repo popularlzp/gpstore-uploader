@@ -7,6 +7,8 @@ async function releaseToPlayStore(
   releaseNotes: string,
   aabFilePath: string
 ) {
+  console.log('Starting release process...');
+
   const play = google.androidpublisher('v3');
 
   const authClient = await google.auth.getClient({
@@ -23,7 +25,12 @@ async function releaseToPlayStore(
     },
   });
 
+  console.log('Creating new edit...');
+
   const edit = await play.edits.insert({ packageName });
+  console.log(`Created new edit with id ${edit.data.id}`);
+
+  console.log(`Uploading AAB file ${aabFilePath}...`);
 
   const { data: bundle } = await play.edits.bundles.upload({
     packageName,
@@ -34,26 +41,49 @@ async function releaseToPlayStore(
     },
   });
 
+  console.log(`Uploaded AAB file with version code ${bundle.versionCode}`);
+
+  console.log(`Updating release track to ${track}...`);
+
   await play.edits.tracks.update({
-    packageName,
+    packageName: packageName!,
     editId: edit.data.id!,
     track,
     requestBody: {
       releases: [
         {
-          versionCodes: [bundle.versionCode!],
-          status: 'completed',
+          versionCodes: [`${bundle.versionCode}`], // 将 versionCode 转换为字符串
+          // userFraction: 1,
           releaseNotes: [
             {
               language: 'en-US',
               text: releaseNotes,
             },
           ],
+          status: 'draft'// 添加发布状态
         },
       ],
     },
   });
 
-  await play.edits.commit({ packageName, editId: edit.data.id! });
+  console.log('Committing edit...');
+
+  const commitResult = await play.edits.commit({
+    packageName: packageName,
+    editId: edit.data.id!,
+  });
+
+  console.log(`Committed edit with id ${commitResult.data.id}`);
 }
-void run();
+
+
+
+void releaseToPlayStore(
+  'com.ecotopia.us',
+  'beta',
+  {
+    "xx":""
+  },
+  'This is a release note.',
+  '/Users/druid/as/Application/DruidEcotopia/app/ecotopia_us_google/release/app-ecotopia_us_google-release.aab'
+);

@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const googleapis_1 = require("googleapis");
 function releaseToPlayStore(packageName, track, credentials, releaseNotes, aabFilePath) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log('Starting release process...');
         const play = googleapis_1.google.androidpublisher('v3');
         const authClient = yield googleapis_1.google.auth.getClient({
             credentials: credentials,
@@ -25,7 +26,10 @@ function releaseToPlayStore(packageName, track, credentials, releaseNotes, aabFi
                 'User-Agent': 'MyApp/1.0.0',
             },
         });
+        console.log('Creating new edit...');
         const edit = yield play.edits.insert({ packageName });
+        console.log(`Created new edit with id ${edit.data.id}`);
+        console.log(`Uploading AAB file ${aabFilePath}...`);
         const { data: bundle } = yield play.edits.bundles.upload({
             packageName,
             editId: edit.data.id,
@@ -34,26 +38,37 @@ function releaseToPlayStore(packageName, track, credentials, releaseNotes, aabFi
                 body: require('fs').createReadStream(aabFilePath),
             },
         });
+        console.log(`Uploaded AAB file with version code ${bundle.versionCode}`);
+        console.log(`Updating release track to ${track}...`);
         yield play.edits.tracks.update({
-            packageName,
+            packageName: packageName,
             editId: edit.data.id,
             track,
             requestBody: {
                 releases: [
                     {
-                        versionCodes: [bundle.versionCode],
-                        status: 'completed',
+                        versionCodes: [`${bundle.versionCode}`],
+                        // userFraction: 1,
                         releaseNotes: [
                             {
                                 language: 'en-US',
                                 text: releaseNotes,
                             },
                         ],
+                        status: 'draft' // 添加发布状态
                     },
                 ],
             },
         });
-        yield play.edits.commit({ packageName, editId: edit.data.id });
+        console.log('Committing edit...');
+        const commitResult = yield play.edits.commit({
+            packageName: packageName,
+            editId: edit.data.id,
+        });
+        console.log(`Committed edit with id ${commitResult.data.id}`);
     });
 }
-void run();
+void releaseToPlayStore('com.ecotopia.us', 'beta', {
+    "xx": ""
+}, 'This is a release note.', '/Users/druid/as/Application/DruidEcotopia/app/ecotopia_us_google/release/app-ecotopia_us_google-release.aab');
+//# sourceMappingURL=index.js.map
