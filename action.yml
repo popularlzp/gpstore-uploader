@@ -22,5 +22,5 @@ runs:
   using: 'node12'
   main: 'dist/index.js'
 
-  dependencies:
+dependencies:
   googleapis: '^114.0.0'
