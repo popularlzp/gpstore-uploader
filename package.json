@@ -13,7 +13,7 @@
   "devDependencies": {
     "@types/google-auth-library": "^7.4.0",
     "@types/googleapis": "^74.3.3",
-    "@types/fs-extra": "^10.0.0",
+    "@types/fs-extra": "^11.1.0",
     "typescript": "^4.5.5"
   },
   "scripts": {
