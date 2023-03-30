@@ -1,0 +1,3 @@
+"scripts": {
+  "release-to-playstore": "ts-node ./releaseToPlayStore.ts"
+}
