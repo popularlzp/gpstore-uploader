@@ -1,20 +1,25 @@
-name: Validation
-'on':
+name: Release to Play Store
+on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up NPM
-        run: npm ci
-      - name: Run Build
-        run: npm run build
-      - name: Run Tests
-        run: npm start
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Install dependencies
+        run: npm install
+      - name: Release to Play Store
+        run: npm run release
+        env:
+          PACKAGE_NAME: ${{ secrets.PACKAGE_NAME }}
+          TRACK: ${{ secrets.TRACK }}
+          CREDENTIALS: ${{ secrets.CREDENTIALS }}
+          RELEASE_NOTES: ${{ secrets.RELEASE_NOTES }}
+          AAB_FILE_PATH: ${{ secrets.AAB_FILE_PATH }}
