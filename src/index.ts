@@ -1,4 +1,5 @@
 import { google } from 'googleapis';
+import * as core from '@actions/core';
 
 async function releaseToPlayStore(
   packageName: string,
@@ -78,12 +79,20 @@ async function releaseToPlayStore(
 
 
 
-void releaseToPlayStore(
-  'com.ecotopia.us',
-  'beta',
-  {
-    "xx":""
-  },
-  'This is a release note.',
-  '/Users/druid/as/Application/DruidEcotopia/app/ecotopia_us_google/release/app-ecotopia_us_google-release.aab'
-);
+async function run() {
+  try {
+    const packageName = core.getInput('packageName');
+    const track = core.getInput('track');
+    const credentials = JSON.parse(core.getInput('credentials'));
+    const releaseNotes = core.getInput('releaseNotes');
+    const aabFilePath = core.getInput('aabFilePath');
+
+    await releaseToPlayStore(packageName, track, credentials, releaseNotes, aabFilePath);
+
+    // core.setOutput('result', 'success');
+ } catch (error: any) {
+    core.setFailed(error.message);
+  }
+}
+
+run();
