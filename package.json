@@ -1,12 +1,16 @@
 {
   "name": "upload-google-play",
   "version": "1.0.0",
+  "private": true,
   "description": "pload an Android release (.apk or .aab) to Google Play Console",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp action.yml dist/",
+    "pack": "npm run build && ncc build",
     "start": "node dist/index.js",
-    "release": "node dist/index.js"
+    "release": "node dist/index.js",
+    "clean": "rm -rf bin dist",
+    "all": "npm run build && npm run lint && npm run pack && npm test"
   },
   "repository": {
     "type": "git",
@@ -17,7 +21,9 @@
     "example",
     "project"
   ],
-  "keywords": [],
+  "keywords": [
+    "actions"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
