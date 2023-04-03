@@ -24,3 +24,7 @@ runs:
 
 dependencies:
   googleapis: '^114.0.0'
+
+branding:
+  icon: check-square
+  color: green
