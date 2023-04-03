@@ -8,6 +8,10 @@
     "start": "node dist/index.js",
     "release": "node dist/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/popularlzp/gpstore-uploader.git"
+  },
   "keywords": [
     "typescript",
     "example",

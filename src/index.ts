@@ -78,7 +78,6 @@ async function releaseToPlayStore(
 }
 
 
-
 async function run() {
   try {
     const packageName = core.getInput('packageName');
