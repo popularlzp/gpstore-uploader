@@ -19,7 +19,7 @@
   ],
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "googleapis": "^114.0.0",
     "@actions/core": "^1.9.1"
