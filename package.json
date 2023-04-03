@@ -17,8 +17,9 @@
     "example",
     "project"
   ],
-  "author": "Your Name",
-  "license": "MIT",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "googleapis": "^114.0.0",
     "@actions/core": "^1.9.1"
